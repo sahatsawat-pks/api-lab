@@ -43,3 +43,18 @@ def rating(api, auth, pizza_id):
     made = res.json()
     yield made
     api.delete(f"/api/ratings/{made['id']}", headers=auth)
+
+@pytest.fixture
+def existing_user(api):
+    # Generate a unique username to prevent collision across test runs/workers
+    username = f"user_{uuid.uuid4().hex[:8]}"
+    payload = {"username": username, "password": "secure_password_123"}
+    
+    # Setup: Create user
+    res = api.post('/api/users', json=payload)
+    assert res.status_code == 201
+
+    yield payload
+
+    # Teardown: Clean up afterwards
+    api.delete(f'/api/users/{username}')
