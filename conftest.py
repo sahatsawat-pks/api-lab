@@ -47,7 +47,7 @@ def rating(api, auth, pizza_id):
 @pytest.fixture
 def existing_user(api):
     # Generate a unique username to prevent collision across test runs/workers
-    username = f"user_{uuid.uuid4().hex[:8]}"
+    username = f"lab-{uuid.uuid4().hex[:12]}"
     payload = {"username": username, "password": "secure_password_123"}
     
     # Setup: Create user

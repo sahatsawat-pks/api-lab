@@ -63,13 +63,28 @@ test_no_session.py::test_log_in_without_a_session PASSED     [100%]
 ======================== 1 passed in 1.94s =========================
 ```
 
-- Step 0.16, blocks of "how many of the three tools are excluded":
+- Step 0.16, blocks of "how many of the three tools are excluded": 
+ - Block 0: 0 tools excluded ([])
+ - Block 1: 1 tool excluded (["Knife"] or ["Scissors"] or ["Pizza cutter"])
+ - Block 2: 2 tools excluded (e.g., ["Knife", "Scissors"])
+ - Block 3: 3 tools excluded (["Knife", "Scissors", "Pizza cutter"])
+
 ## Defect report
-- Title:
-- Request:
-- Expected result:
-- Actual result:
-- Severity:
+- Title: When there's no requirement meets pizza, it's return 500 instead of 400
+- Request: 
+```http
+  POST /api/pizza
+  Content-Type: application/json
+  Authorization: Bearer <token>
+
+  {
+    "excludedTools": ["Knife", "Scissors", "Pizza cutter"]
+  }
+```
+- Expected result: 400 Bad Request ({"error": "Not Found"})
+- Actual result: 500 Internal Server Error
+- Severity: Medium -> While excluding all tools is an edge case, crashing with a 500 unhandled exception leaks server vulnerability details, provides zero feedback to the client, and degrades API reliability.
+
 ## Part A
 - Step A4, status codes when the other user reads, changes and deletes:
 ## Part B
