@@ -58,3 +58,7 @@ def existing_user(api):
 
     # Teardown: Clean up afterwards
     api.delete(f'/api/users/{username}')
+
+@pytest.fixture
+def other_auth(api):
+    return log_in_new_user(api)
